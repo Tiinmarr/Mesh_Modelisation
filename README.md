@@ -14,7 +14,7 @@ This work come from a BE at Ecole Centrale de Lyon. We worked on the 3D modelisa
 
 In this example, you have a graphical interface where you have both options :
 
-[Graphical interface](/picture/Graphical_interface.png)
+![Graphical interface](/Picture/Graphical_interface.png)
 
 
 - First you got a simple pyramid mesh. (you can check or not the wireframe)
