@@ -24,7 +24,15 @@ public:
     float y;
     float z;
     int Face_Index = 0;
+
+    inline Vector operator-(const Vector& other) const {
+        return Vector(x - other.x, y - other.y, z - other.z);
+    }
 };
+
+// Vector operator-(const Vector& a, const Vector& b) {
+// 	return Vector(a.x - b.x, a.y - b.y, a.z - b.z);
+// }
 
 class Face
 {
@@ -82,9 +90,6 @@ public:
 
     std::vector<Vector> points;
     std::vector<Face> faces_table;
-
-    // void drawMesh();
-    //void drawMeshWireFrame();
 };
 
 class GeometricWorld //Generally used to create a singleton instance
@@ -95,10 +100,11 @@ public :
   void draw();
   void drawWireFrame();
   QVector<Vector> _bBox;  // Bounding box // ou std::vector
-  // ** TP Can be extended with further elements;
   TopologicalMesh _mesh;
   int index_sommet=-1;
   Vector color = Vector(1,1,0);
+  bool laplacian = false; // To display the laplacian or not
+  std::vector<float> laplacian_vector;
 };
 
 

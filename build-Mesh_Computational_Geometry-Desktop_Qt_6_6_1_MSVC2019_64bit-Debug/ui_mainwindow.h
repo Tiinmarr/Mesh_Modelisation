@@ -12,9 +12,11 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -35,6 +37,10 @@ public:
     QSpinBox *Sommet;
     QPushButton *Quit;
     QCheckBox *WireFrame;
+    QPushButton *Laplacian;
+    QGroupBox *Param_L;
+    QRadioButton *Position;
+    QRadioButton *Courbure;
     QToolBar *mainToolBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -77,6 +83,43 @@ public:
         WireFrame = new QCheckBox(maillage);
         WireFrame->setObjectName("WireFrame");
         WireFrame->setGeometry(QRect(260, 20, 77, 31));
+        QPalette palette;
+        QBrush brush(QColor(255, 255, 255, 255));
+        brush.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::WindowText, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::WindowText, brush);
+        WireFrame->setPalette(palette);
+        Laplacian = new QPushButton(maillage);
+        Laplacian->setObjectName("Laplacian");
+        Laplacian->setGeometry(QRect(130, 60, 101, 31));
+        Param_L = new QGroupBox(maillage);
+        Param_L->setObjectName("Param_L");
+        Param_L->setGeometry(QRect(130, 100, 131, 80));
+        QPalette palette1;
+        palette1.setBrush(QPalette::Active, QPalette::WindowText, brush);
+        palette1.setBrush(QPalette::Active, QPalette::Text, brush);
+        palette1.setBrush(QPalette::Active, QPalette::ButtonText, brush);
+        palette1.setBrush(QPalette::Active, QPalette::ToolTipText, brush);
+        palette1.setBrush(QPalette::Inactive, QPalette::WindowText, brush);
+        palette1.setBrush(QPalette::Inactive, QPalette::Text, brush);
+        palette1.setBrush(QPalette::Inactive, QPalette::ButtonText, brush);
+        palette1.setBrush(QPalette::Inactive, QPalette::ToolTipText, brush);
+        palette1.setBrush(QPalette::Disabled, QPalette::ToolTipText, brush);
+        Param_L->setPalette(palette1);
+        Position = new QRadioButton(Param_L);
+        Position->setObjectName("Position");
+        Position->setGeometry(QRect(10, 30, 91, 22));
+        QPalette palette2;
+        palette2.setBrush(QPalette::Active, QPalette::WindowText, brush);
+        palette2.setBrush(QPalette::Inactive, QPalette::WindowText, brush);
+        Position->setPalette(palette2);
+        Courbure = new QRadioButton(Param_L);
+        Courbure->setObjectName("Courbure");
+        Courbure->setGeometry(QRect(10, 50, 91, 22));
+        QPalette palette3;
+        palette3.setBrush(QPalette::Active, QPalette::WindowText, brush);
+        palette3.setBrush(QPalette::Inactive, QPalette::WindowText, brush);
+        Courbure->setPalette(palette3);
 
         horizontalLayout->addWidget(maillage);
 
@@ -99,6 +142,10 @@ public:
         Color->setText(QCoreApplication::translate("MainWindow", "Couleur", nullptr));
         Quit->setText(QCoreApplication::translate("MainWindow", "Quitter", nullptr));
         WireFrame->setText(QCoreApplication::translate("MainWindow", "Wireframe", nullptr));
+        Laplacian->setText(QCoreApplication::translate("MainWindow", "Laplacien", nullptr));
+        Param_L->setTitle(QCoreApplication::translate("MainWindow", "Param\303\250tres Laplacien", nullptr));
+        Position->setText(QCoreApplication::translate("MainWindow", "Position", nullptr));
+        Courbure->setText(QCoreApplication::translate("MainWindow", "Courbure", nullptr));
     } // retranslateUi
 
 };
