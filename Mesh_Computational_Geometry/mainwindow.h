@@ -25,7 +25,7 @@ public slots:
     void color();
     void wireFrame();
     void quit();
-    void laplacian();
+    void Compute_Laplacian();
 };
 
 #endif // MAINWINDOW_H

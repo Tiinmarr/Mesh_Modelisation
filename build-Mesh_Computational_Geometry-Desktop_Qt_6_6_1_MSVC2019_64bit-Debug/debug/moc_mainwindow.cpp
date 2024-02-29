@@ -46,7 +46,7 @@ static constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers:
     "color",
     "wireFrame",
     "quit",
-    "laplacian"
+    "Compute_Laplacian"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
@@ -59,7 +59,7 @@ struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
     char stringdata5[6];
     char stringdata6[10];
     char stringdata7[5];
-    char stringdata8[10];
+    char stringdata8[18];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSMainWindowENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -73,7 +73,7 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
         QT_MOC_LITERAL(39, 5),  // "color"
         QT_MOC_LITERAL(45, 9),  // "wireFrame"
         QT_MOC_LITERAL(55, 4),  // "quit"
-        QT_MOC_LITERAL(60, 9)   // "laplacian"
+        QT_MOC_LITERAL(60, 17)   // "Compute_Laplacian"
     },
     "MainWindow",
     "Maillage",
@@ -83,7 +83,7 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
     "color",
     "wireFrame",
     "quit",
-    "laplacian"
+    "Compute_Laplacian"
 };
 #undef QT_MOC_LITERAL
 #endif // !QT_MOC_HAS_STRING_DATA
@@ -144,7 +144,7 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'quit'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'laplacian'
+        // method 'Compute_Laplacian'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -162,7 +162,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 3: _t->color(); break;
         case 4: _t->wireFrame(); break;
         case 5: _t->quit(); break;
-        case 6: _t->laplacian(); break;
+        case 6: _t->Compute_Laplacian(); break;
         default: ;
         }
     }

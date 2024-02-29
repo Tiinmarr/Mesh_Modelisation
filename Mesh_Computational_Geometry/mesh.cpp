@@ -2,10 +2,16 @@
 #include <iostream>
 #include <ostream>
 
+// Vector color_from_laplacian(float l1, float l2, float l3) {
+//     float t = (l1 + l2 + l3) / 3;
+//     if (t < 0.5) return Vector(-2 * t + 2,-2 * t + 2,1);
+//     else return Vector(1 ,2 * t ,2 * t);
+// }
+
 Vector color_from_laplacian(float l1, float l2, float l3) {
     float t = (l1 + l2 + l3) / 3;
-    if (t < 0.5) return Vector(1*2*t,1*2*t,1);
-    else return Vector(1 ,1 * 2 * (1 - t) ,1 * 2 * (1 - t));
+    if (t < 0.5) return Vector(-2 * t + 2,-2 * t + 2,1);
+    else return Vector(1 ,2 * t ,2 * t);
 }
 
 
@@ -114,6 +120,7 @@ void GeometricWorld::draw() {
     else {
         for (int i = 0; i < _mesh.faces_table.size(); i++) {
         color = color_from_laplacian(laplacian_vector[_mesh.faces_table[i].index_points[0]],laplacian_vector[_mesh.faces_table[i].index_points[1]],laplacian_vector[_mesh.faces_table[i].index_points[2]]);
+        // std::cout << color.x << " " << color.y << " " << color.z << std::endl;
         glBegin(GL_TRIANGLES);
         glColor3d(color.x,color.y,color.z);   
         glPointDraw(_mesh.points[_mesh.faces_table[i].index_points[0]]);

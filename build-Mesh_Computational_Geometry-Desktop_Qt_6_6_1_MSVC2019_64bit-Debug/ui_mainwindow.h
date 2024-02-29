@@ -144,8 +144,8 @@ public:
         WireFrame->setText(QCoreApplication::translate("MainWindow", "Wireframe", nullptr));
         Laplacian->setText(QCoreApplication::translate("MainWindow", "Laplacien", nullptr));
         Param_L->setTitle(QCoreApplication::translate("MainWindow", "Param\303\250tres Laplacien", nullptr));
-        Position->setText(QCoreApplication::translate("MainWindow", "Position", nullptr));
-        Courbure->setText(QCoreApplication::translate("MainWindow", "Courbure", nullptr));
+        Position->setText(QCoreApplication::translate("MainWindow", "Normale", nullptr));
+        Courbure->setText(QCoreApplication::translate("MainWindow", "Temp\303\251rature", nullptr));
     } // retranslateUi
 
 };

@@ -294,7 +294,7 @@
          </palette>
         </property>
         <property name="text">
-         <string>Position</string>
+         <string>Normale</string>
         </property>
        </widget>
        <widget class="QRadioButton" name="Courbure">
@@ -334,7 +334,7 @@
          </palette>
         </property>
         <property name="text">
-         <string>Courbure</string>
+         <string>Température</string>
         </property>
        </widget>
       </widget>
