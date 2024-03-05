@@ -294,7 +294,7 @@
          </palette>
         </property>
         <property name="text">
-         <string>Normale</string>
+         <string>Courbure</string>
         </property>
        </widget>
        <widget class="QRadioButton" name="Courbure">

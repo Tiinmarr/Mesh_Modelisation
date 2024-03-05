@@ -213,8 +213,8 @@ void MainWindow::Compute_Laplacian()
     }
     for (int i=0; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
     {
-        // glDisplayWidget->_geomWorld.laplacian_vector[i] = (norm_float(glDisplayWidget->_geomWorld.laplacian_vector[i]) - min) / (max - min);
         glDisplayWidget->_geomWorld.laplacian_vector[i] = (glDisplayWidget->_geomWorld.laplacian_vector[i]) - min / (max - min);
+        // glDisplayWidget->_geomWorld.laplacian_vector[i] = (norm_float(glDisplayWidget->_geomWorld.laplacian_vector[i]) - min) / (max - min);
         // std::cout << glDisplayWidget->_geomWorld.laplacian_vector[i] << std::endl;
     }
     time+=1;
