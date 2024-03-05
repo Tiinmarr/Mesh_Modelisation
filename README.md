@@ -31,6 +31,16 @@ Finally, if you want to quit the application, please push the button "Quitter".
 
 Thanks,
 
+## Laplacian :
+
+I added a Laplacian button. (For this, I suggest you to use the "sharp_sphere.off" file, which works very well !)
+
+You can choose to compute the curvature (courbure) of a mesh or the diffsuion of temperature with a source of heat on the vertex 0. (For computing this vertex, put the counter to 1 and click on the button "maillage"n this will display in red the faces around the vertex).
+
+For the Temperature, you could get a result like this : 
+
+![gif](/Picture/temperature_diffusion.gif)
+
 ## Credits
 
 [Raphaëlle Chaine](mailto:raphaelle.chaine@univ-lyon1.fr) lessons in Ecole Centrale de Lyon

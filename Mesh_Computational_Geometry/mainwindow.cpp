@@ -18,6 +18,13 @@ float norm(const Vector & a) {
     return sqrt(dot(a, a));
 }
 
+float norm_signed(const Vector & a) {
+    if (a.x <0 && a.y <0 && a.z <0) {
+        return -sqrt(dot(a, a));
+    }
+    return sqrt(dot(a, a));
+}
+
 float norm_float(const float & a) {
     return sqrt(a * a);
 }
@@ -85,12 +92,13 @@ void MainWindow::Compute_Laplacian()
     float value;
     int triangle;
     int time = 9;
+    int time_init;
     if (ui->Position->isChecked())
     {
         for (int i=0; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
         {
             triangle = glDisplayWidget->_geomWorld._mesh.points[i].Face_Index;
-            value = norm(cross(glDisplayWidget->_geomWorld._mesh.points[glDisplayWidget->_geomWorld._mesh.faces_table[triangle].index_points[(index_of(glDisplayWidget->_geomWorld._mesh.faces_table[triangle],i)+1)%3]] - glDisplayWidget->_geomWorld._mesh.points[i],glDisplayWidget->_geomWorld._mesh.points[glDisplayWidget->_geomWorld._mesh.faces_table[triangle].index_points[(index_of(glDisplayWidget->_geomWorld._mesh.faces_table[triangle],i)+2)%3]] - glDisplayWidget->_geomWorld._mesh.points[i] ));
+            value = norm_signed(cross(glDisplayWidget->_geomWorld._mesh.points[glDisplayWidget->_geomWorld._mesh.faces_table[triangle].index_points[(index_of(glDisplayWidget->_geomWorld._mesh.faces_table[triangle],i)+1)%3]] - glDisplayWidget->_geomWorld._mesh.points[i],glDisplayWidget->_geomWorld._mesh.points[glDisplayWidget->_geomWorld._mesh.faces_table[triangle].index_points[(index_of(glDisplayWidget->_geomWorld._mesh.faces_table[triangle],i)+2)%3]] - glDisplayWidget->_geomWorld._mesh.points[i] ));
             normal.push_back(value);
             u.push_back(glDisplayWidget->_geomWorld._mesh.points[i].x);
             new_u.push_back(glDisplayWidget->_geomWorld._mesh.points[i].x);
@@ -102,7 +110,8 @@ void MainWindow::Compute_Laplacian()
     {
         u.push_back(200);
         new_u.push_back(200);
-        time = 7;
+        time = 1;
+        time_init = time;
         for (int i=1; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
         {
             u.push_back(0);
@@ -182,7 +191,7 @@ void MainWindow::Compute_Laplacian()
         }
         if (time <9) {
             // u[i] += 0.5 * sum / area;
-            if (time ==7) {
+            if (time ==time_init) {
                 glDisplayWidget->_geomWorld.laplacian_vector.push_back(0.5 * sum / area);
             }
             else {
@@ -203,8 +212,8 @@ void MainWindow::Compute_Laplacian()
         u[i] = new_u[i];
         if (norm_float(glDisplayWidget->_geomWorld.laplacian_vector[i]) > max)
         {
-            // max = norm_float(glDisplayWidget->_geomWorld.laplacian_vector[i]);
             max = norm_float(glDisplayWidget->_geomWorld.laplacian_vector[i]);
+            // max = glDisplayWidget->_geomWorld.laplacian_vector[i];
         }
         else if (glDisplayWidget->_geomWorld.laplacian_vector[i] < min)
         {
@@ -213,14 +222,19 @@ void MainWindow::Compute_Laplacian()
     }
     for (int i=0; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
     {
-        glDisplayWidget->_geomWorld.laplacian_vector[i] = (glDisplayWidget->_geomWorld.laplacian_vector[i]) - min / (max - min);
-        // glDisplayWidget->_geomWorld.laplacian_vector[i] = (norm_float(glDisplayWidget->_geomWorld.laplacian_vector[i]) - min) / (max - min);
+        if (ui->Position->isChecked()) {
+            glDisplayWidget->_geomWorld.laplacian_vector[i] = (glDisplayWidget->_geomWorld.laplacian_vector[i]) - min / (max - min);
+        }
+        else{
+            min = 0;
+            glDisplayWidget->_geomWorld.laplacian_vector[i] = (norm_float(glDisplayWidget->_geomWorld.laplacian_vector[i])) - min / (max - min);
+        }
         // std::cout << glDisplayWidget->_geomWorld.laplacian_vector[i] << std::endl;
     }
     time+=1;
     // //call paintGL
-    // glDisplayWidget->update();
-    // std::this_thread::sleep_for(std::chrono::seconds(1)); // wait 1 second for visualization
+    glDisplayWidget->_geomWorld.draw();
+    std::this_thread::sleep_for(std::chrono::seconds(1)); // wait 1 second for visualization
     }
 }
 
