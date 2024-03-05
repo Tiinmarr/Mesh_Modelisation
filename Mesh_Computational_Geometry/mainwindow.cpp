@@ -78,6 +78,9 @@ void MainWindow::Compute_Laplacian()
     glDisplayWidget->_geomWorld.laplacian = true;
     glDisplayWidget->_geomWorld.laplacian_vector = std::vector<float>();
     std::vector<float> u;
+    std::vector<float> normal;
+    std::vector<float> u2;
+    std::vector<float> u3;
     std::vector<float> new_u;
     float value;
     int triangle;
@@ -88,15 +91,18 @@ void MainWindow::Compute_Laplacian()
         {
             triangle = glDisplayWidget->_geomWorld._mesh.points[i].Face_Index;
             value = norm(cross(glDisplayWidget->_geomWorld._mesh.points[glDisplayWidget->_geomWorld._mesh.faces_table[triangle].index_points[(index_of(glDisplayWidget->_geomWorld._mesh.faces_table[triangle],i)+1)%3]] - glDisplayWidget->_geomWorld._mesh.points[i],glDisplayWidget->_geomWorld._mesh.points[glDisplayWidget->_geomWorld._mesh.faces_table[triangle].index_points[(index_of(glDisplayWidget->_geomWorld._mesh.faces_table[triangle],i)+2)%3]] - glDisplayWidget->_geomWorld._mesh.points[i] ));
-            u.push_back(value);
-            new_u = u;
+            normal.push_back(value);
+            u.push_back(glDisplayWidget->_geomWorld._mesh.points[i].x);
+            new_u.push_back(glDisplayWidget->_geomWorld._mesh.points[i].x);
+            u2.push_back(glDisplayWidget->_geomWorld._mesh.points[i].y);
+            u3.push_back(glDisplayWidget->_geomWorld._mesh.points[i].z);
         }
     }
     else
     {
         u.push_back(200);
         new_u.push_back(200);
-        time = 8;
+        time = 7;
         for (int i=1; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
         {
             u.push_back(0);
@@ -114,6 +120,9 @@ void MainWindow::Compute_Laplacian()
         float ab,ac,bc,s_p;
         float area = 0;
         float sum = 0;
+        float dx = 0;
+        float dy = 0;
+        float dz = 0;
         int premier_triangle = glDisplayWidget->_geomWorld._mesh.points[i].Face_Index;
         int last_triangle = premier_triangle;
         int triangle_suivant = -1;
@@ -148,16 +157,32 @@ void MainWindow::Compute_Laplacian()
             den = norm(cross(glDisplayWidget->_geomWorld._mesh.points[i] - glDisplayWidget->_geomWorld._mesh.points[glDisplayWidget->_geomWorld._mesh.faces_table[triangle_suivant].index_points[(index_of(glDisplayWidget->_geomWorld._mesh.faces_table[triangle_suivant],i)+2)%3]], glDisplayWidget->_geomWorld._mesh.points[glDisplayWidget->_geomWorld._mesh.faces_table[triangle_suivant].index_points[(index_of(glDisplayWidget->_geomWorld._mesh.faces_table[triangle_suivant],i)+1)%3]] - glDisplayWidget->_geomWorld._mesh.points[glDisplayWidget->_geomWorld._mesh.faces_table[triangle_suivant].index_points[(index_of(glDisplayWidget->_geomWorld._mesh.faces_table[triangle_suivant],i)+2)%3]]));
             beta_ij = num/den;
             int k = glDisplayWidget->_geomWorld._mesh.faces_table[last_triangle].index_points[(s+1)%3];
-            sum += (alpha_ij + beta_ij)*(u[k] - u[i]);
-            // std::cout << "  " << u[k] <<" " << u[i] << std::endl;
+            if (ui->Position->isChecked())
+            {
+                dx += (alpha_ij + beta_ij)*(u[k] - u[i]);
+                dy += (alpha_ij + beta_ij)*(u2[k] - u2[i]);
+                dz += (alpha_ij + beta_ij)*(u3[k] - u3[i]);
+            }
+            else {
+                sum += (alpha_ij + beta_ij)*(u[k] - u[i]);
+            }
+            
             last_triangle = triangle_suivant;
+        }
+        if (ui->Position->isChecked())
+        {
+            dx /= (2 * area);
+            dy /= (2 * area);
+            dz /= (2 * area);
+            sum = norm(Vector(dx,dy,dz));
+            sum /= (2*normal[i]);
         }
         if (i!=0 && time <9) {
             new_u[i] = 0.5 * sum / area;
         }
         if (time <9) {
             // u[i] += 0.5 * sum / area;
-            if (time ==8) {
+            if (time ==7) {
                 glDisplayWidget->_geomWorld.laplacian_vector.push_back(0.5 * sum / area);
             }
             else {
@@ -167,18 +192,19 @@ void MainWindow::Compute_Laplacian()
         else {
         glDisplayWidget->_geomWorld.laplacian_vector.push_back(0.5 * sum / area);
         }
-        
     }
 
     // We normalize the laplacian vector
     float max = 0;
     float min = 0;
+    // Essayer de maintenir min à 0 et faire norm_float(laplacian_vector)
     for (int i=0; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
     {
         u[i] = new_u[i];
-        if (glDisplayWidget->_geomWorld.laplacian_vector[i] > max)
+        if (norm_float(glDisplayWidget->_geomWorld.laplacian_vector[i]) > max)
         {
-            max = glDisplayWidget->_geomWorld.laplacian_vector[i];
+            // max = norm_float(glDisplayWidget->_geomWorld.laplacian_vector[i]);
+            max = norm_float(glDisplayWidget->_geomWorld.laplacian_vector[i]);
         }
         else if (glDisplayWidget->_geomWorld.laplacian_vector[i] < min)
         {
@@ -187,92 +213,16 @@ void MainWindow::Compute_Laplacian()
     }
     for (int i=0; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
     {
-        glDisplayWidget->_geomWorld.laplacian_vector[i] = (glDisplayWidget->_geomWorld.laplacian_vector[i] - min) / (max - min);
+        // glDisplayWidget->_geomWorld.laplacian_vector[i] = (norm_float(glDisplayWidget->_geomWorld.laplacian_vector[i]) - min) / (max - min);
+        glDisplayWidget->_geomWorld.laplacian_vector[i] = (glDisplayWidget->_geomWorld.laplacian_vector[i]) - min / (max - min);
         // std::cout << glDisplayWidget->_geomWorld.laplacian_vector[i] << std::endl;
     }
     time+=1;
-    //call paintGL
-    glDisplayWidget->paintGL();
-    std::this_thread::sleep_for(std::chrono::seconds(1)); // wait 1 second for visualization
+    // //call paintGL
+    // glDisplayWidget->update();
+    // std::this_thread::sleep_for(std::chrono::seconds(1)); // wait 1 second for visualization
     }
 }
-
-// void MainWindow::Compute_Laplacian()
-// {
-// // compute u and call laplacian :
-//     GLDisplayWidget *glDisplayWidget = ui->maillage;
-//     glDisplayWidget->_geomWorld.laplacian = true;
-//     glDisplayWidget->_geomWorld.laplacian_vector = std::vector<float>();
-//     std::vector<float> u;
-//     float value;
-//     int triangle;
-//     int time = 9;
-//     if (ui->Position->isChecked())
-//     {
-//         for (int i=0; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
-//         {
-//             triangle = glDisplayWidget->_geomWorld._mesh.points[i].Face_Index;
-//             value = norm(cross(glDisplayWidget->_geomWorld._mesh.points[glDisplayWidget->_geomWorld._mesh.faces_table[triangle].index_points[(index_of(glDisplayWidget->_geomWorld._mesh.faces_table[triangle],i)+1)%3]] - glDisplayWidget->_geomWorld._mesh.points[i],glDisplayWidget->_geomWorld._mesh.points[glDisplayWidget->_geomWorld._mesh.faces_table[triangle].index_points[(index_of(glDisplayWidget->_geomWorld._mesh.faces_table[triangle],i)+2)%3]] - glDisplayWidget->_geomWorld._mesh.points[i] ));
-//             u.push_back(value);
-//         }
-//     }
-//     else
-//     {
-//         u.push_back(200);
-//         time =0;
-//         for (int i=1; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
-//         {
-//             u.push_back(0);
-//         }
-//     }
-//     while (time <10)
-//     { 
-//         laplacian(u, glDisplayWidget);
-//         if (time <9) {
-//             if (time ==0) {
-//                 for (int i=0; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
-//                 {
-//                     glDisplayWidget->_geomWorld.laplacian_vector.push_back(u[i]);
-//                 }
-//             }
-//             else {
-//                 for (int i=0; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
-//                 {
-//                     glDisplayWidget->_geomWorld.laplacian_vector[i] = u[i];
-//                 }
-//             }
-//         }
-//         else {
-//             for (int i=0; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
-//             {
-//                 glDisplayWidget->_geomWorld.laplacian_vector.push_back(u[i]);
-//             }
-//         }
-//         time++;
-//     float max = 0;
-//     float min = 0;
-//     for (int i=0; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
-//     {
-//         if (glDisplayWidget->_geomWorld.laplacian_vector[i] > max)
-//         {
-//             max = glDisplayWidget->_geomWorld.laplacian_vector[i];
-//         }
-//         else if (glDisplayWidget->_geomWorld.laplacian_vector[i] < min)
-//         {
-//             min = glDisplayWidget->_geomWorld.laplacian_vector[i];
-//         }
-//     }
-//     for (int i=0; i<glDisplayWidget->_geomWorld._mesh.points.size(); i++)
-//     {
-//         glDisplayWidget->_geomWorld.laplacian_vector[i] = (glDisplayWidget->_geomWorld.laplacian_vector[i] - min) / (max - min);
-//     }
-
-//     //call paintGL
-//     glDisplayWidget->paintGL();
-//     // glDisplayWidget->_geomWorld.draw();
-//     std::this_thread::sleep_for(std::chrono::seconds(1)); // wait 1 second for visualization
-//     }
-// }
 
 void MainWindow::read_OFF()
 {
