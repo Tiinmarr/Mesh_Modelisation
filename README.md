@@ -41,6 +41,12 @@ For the Temperature, you could get a result like this :
 
 ![gif](/Picture/temperature_diffusion.gif)
 
+The curvature looks like these pictures which perfectly show the most curved places of the mesh : 
+
+![sphere](/Picture/courbure.png)
+
+![star](/Picture/courbure_star.png)
+
 ## Credits
 
 [Raphaëlle Chaine](mailto:raphaelle.chaine@univ-lyon1.fr) lessons in Ecole Centrale de Lyon
