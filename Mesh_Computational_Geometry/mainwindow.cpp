@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->Color, SIGNAL(released()), this, SLOT(color()));
     connect(ui->WireFrame, SIGNAL(clicked()), this, SLOT(wireFrame()));
     ui->WireFrame->setChecked(true);
+    connect(ui->Insert, SIGNAL(released()), this, SLOT(InsertVertex()));
+    connect(ui->Flip, SIGNAL(released()), this, SLOT(Flip()));
     connect(ui->Quit, SIGNAL(released()), this, SLOT(quit()));
 }
 
@@ -37,6 +39,14 @@ void MainWindow::Maillage()
     else
     {
         glDisplayWidget->_geomWorld.index_sommet = valeurSpinBox - 1;
+                    for (int i = 0; i < glDisplayWidget->_geomWorld._mesh.points.size(); i++) {
+        std::cout << "Sommet " << i << " : " << glDisplayWidget->_geomWorld._mesh.points[i].x << " " << glDisplayWidget->_geomWorld._mesh.points[i].y << " " << glDisplayWidget->_geomWorld._mesh.points[i].z << " | Index : " << glDisplayWidget->_geomWorld._mesh.points[i].Face_Index << std::endl;
+    }
+
+    for (int i = 0; i < glDisplayWidget->_geomWorld._mesh.faces_table.size(); i++) {
+        std::cout << "Face " << i << " : " << glDisplayWidget->_geomWorld._mesh.faces_table[i].index_points[0] << " " << glDisplayWidget->_geomWorld._mesh.faces_table[i].index_points[1] << " " << glDisplayWidget->_geomWorld._mesh.faces_table[i].index_points[2] << std::endl;
+        std::cout << "Face adjacente : " << glDisplayWidget->_geomWorld._mesh.faces_table[i].adj_f[0] << " " << glDisplayWidget->_geomWorld._mesh.faces_table[i].adj_f[1] << " " << glDisplayWidget->_geomWorld._mesh.faces_table[i].adj_f[2] << std::endl;
+    }
     }
 }
 
@@ -144,6 +154,21 @@ void MainWindow::color()
     GLDisplayWidget *glDisplayWidget = ui->maillage;
     glDisplayWidget->_geomWorld.color = Vector(rf, gf, bf);
 
+}
+
+void MainWindow::InsertVertex()
+{
+    GLDisplayWidget *glDisplayWidget = ui->maillage;
+    Vector v = Vector(1, 1, 0);
+    glDisplayWidget->_geomWorld.TriangleSplit(v);
+}
+
+void MainWindow::Flip()
+{
+    GLDisplayWidget *glDisplayWidget = ui->maillage;
+    int f1 = 0;
+    int f2 = 1;
+    glDisplayWidget->_geomWorld.EdgeFlip(f1,f2);
 }
 
 void MainWindow::quit()

@@ -24,6 +24,8 @@ public slots:
     void save_OFF();
     void color();
     void wireFrame();
+    void InsertVertex();
+    void Flip();
     void quit();
 };
 

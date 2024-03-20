@@ -114,6 +114,32 @@
         <string>Wireframe</string>
        </property>
       </widget>
+      <widget class="QPushButton" name="Insert">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>60</y>
+         <width>101</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Insérer</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="Flip">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>100</y>
+         <width>101</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Flip</string>
+       </property>
+      </widget>
      </widget>
     </item>
    </layout>

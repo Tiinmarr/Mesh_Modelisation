@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 11.0.3, 2024-02-13T14:19:56. -->
+<!-- Written by QtCreator 11.0.3, 2024-03-20T14:26:43. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -238,8 +238,9 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="bool" key="PE.EnvironmentAspect.PrintOnRun">false</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/marti/Desktop/3A_ECL/Option/MSO_MOS/Modelisation_geometrique/Mesh_Computational_Geometry/Mesh_Computational_Geometry/Mesh_Computational_Geometry.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/marti/Desktop/3A_ECL/Option/MSO_MOS/Modelisation_geometrique/Mesh_Computational_Geometry/Mesh_Computational_Geometry/Mesh_Computational_Geometry.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Mesh_Computational_Geometry2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:C:/Users/marti/Desktop/3A_ECL/Option/MSO_MOS/Modelisation_geometrique/TP_3/Mesh_Computational_Geometry/Mesh_Computational_Geometry.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/marti/Desktop/3A_ECL/Option/MSO_MOS/Modelisation_geometrique/TP_3/Mesh_Computational_Geometry/Mesh_Computational_Geometry.pro</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
